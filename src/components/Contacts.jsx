@@ -51,7 +51,11 @@ function Contacts() {
   const deleteAllHandler = () => {
     console.log(deleteData);
     let newContacts = [...contacts];
-
+    if(deleteData.length === 0){
+      setAlert("لطفا مخاطب هایی که میخواهید حذف کنید را انتخاب کنید.");
+      setShowDeleteAllConfirmation(null);
+      return;
+    }
     for (let i of deleteData) {
       newContacts = newContacts.filter((contact) => contact.id !== i);
     }
@@ -95,6 +99,7 @@ function Contacts() {
   };
   return (
     <div className={styles.container}>
+       <div className={styles.alert}>{alert && <p><span>🛈</span> {alert}</p>}</div>
       <div className={styles.operation}>
         <SearchBox
           search={search}
@@ -102,11 +107,11 @@ function Contacts() {
           searchHandler={searchHandler}
         />
 
-        {!!deleteAll ? (
+        {!!contacts.length && (!!deleteAll ? (
           <button onClick={() => setShowDeleteAllConfirmation(true)}>🙎🏻‍♂️</button>
         ) : (
           <button onClick={() => setDeleteAll(true)}>✔✔</button>
-        )}
+        ))}
 
         <button className={styles.addContact} onClick={() => setShowAddContact(true)}>+</button>
       </div>
@@ -131,7 +136,7 @@ function Contacts() {
           />
         </Modal>
       )}
-      <div className={styles.alert}>{alert && <p>{alert}</p>}</div>
+     
 
       <ContactsList
         contacts={contacts}

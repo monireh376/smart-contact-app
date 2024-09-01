@@ -3,8 +3,10 @@ import { v4 } from "uuid";
 
 import styles from "./AddContact.module.css";
 import inputs from "./constatnts/inputs";
+import { validateEmail } from "../utils/generalUtil";
 
 function AddContact({ setContacts, setShowAddContact, setSearchedContacts }) {
+  const [alert, setAlert] = useState("");
   const [contact, setContact] = useState({
     id: "",
     fullName: "",
@@ -20,12 +22,25 @@ function AddContact({ setContacts, setShowAddContact, setSearchedContacts }) {
   };
 
   const addHandler = () => {
-    // if (!contact.fullName || !contact.email || !contact.job || !contact.phone) {
-    //   setAlert("Please enter valid data");
-    //   return;
-    // }
+    if (!contact.fullName || !contact.email || !contact.job || !contact.phone) {
+      setAlert("لطفا اطلاعات معتبر وارد نمایید.");
+      return;
+    }
+    if (contact.fullName.length <= 7) {
+      setAlert("نام و نام خانوادگی باید حداکثر 7 کاراکتر باشد.");
+      return;
+    }
 
-    // setAlert("");
+    if (!validateEmail(contact.email)) {
+      setAlert("لطفا ایمیل معتبر وارد کنید.");
+      return;
+    }
+
+    if (/^\d{10}$/.test(contact.phone) || contact.phone.length !== 11 || !contact.phone.toString().startsWith("09")){
+      setAlert("لطفا شماره تلفن معتبر وارد کنید.");
+      return;
+    }
+    setAlert("");
     const newContact = { ...contact, id: v4() };
     setContacts((contacts) => [...contacts, newContact]);
     setSearchedContacts((contacts) => [...contacts, newContact]);
@@ -37,27 +52,22 @@ function AddContact({ setContacts, setShowAddContact, setSearchedContacts }) {
     });
   };
   return (
-    <div>
-      {/* <div className={styles.modal_content}> */}
-        {/* <span className={styles.close} onClick={() => setShowAddContact(false)}>
-          &times;
-        </span> */}
-
-        <div className={styles.form}>
-          {inputs.map((input, index) => (
-            <input
-              key={index}
-              type={input.type}
-              placeholder={input.placeholder}
-              value={contact[input.name]}
-              name={input.name}
-              onChange={changeHandler}
-            />
-          ))}
-          <button onClick={addHandler}>افزودن</button>
-        </div>
-      {/* </div> */}
-    </div>
+    <>
+      <div className={styles.form}>
+        <div className={styles.alert}>{alert && <p><span>🛈</span> {alert}</p>}</div>
+        {inputs.map((input, index) => (
+          <input
+            key={index}
+            type={input.type}
+            placeholder={input.placeholder}
+            value={contact[input.name]}
+            name={input.name}
+            onChange={changeHandler}
+          />
+        ))}
+        <button onClick={addHandler}>افزودن</button>
+      </div>
+    </>
   );
 }
 
