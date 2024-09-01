@@ -9,10 +9,10 @@ function ConfirmationBox({
   titleCancel,
 }) {
   return (
-    <div>
+    <div className={styles.form}>
       <div>{title}</div>
       <div>{question}</div>
-      <div>
+      <div className={styles.buttons}>
         <button onClick={callbackHandler}>{titleCallBack}</button>
         <button onClick={() => cancelHandler(null)}>{titleCancel}</button>
       </div>

@@ -3,9 +3,10 @@ import styles from "./SearchBox.module.css";
 
 function SearchBox({ search, setSearch, searchHandler }) {
   return (
-    <div>
-      <label htmlFor="">جستجو در مخاطبین</label>
+    <div className={styles.container}>
+      <label htmlFor="search">جستجو در مخاطبین</label>
       <input
+      id="search"
         type="text"
         placeholder="عنوان سرچ"
         value={search}

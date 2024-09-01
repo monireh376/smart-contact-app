@@ -2,6 +2,7 @@ import { useState } from "react";
 import styles from "./EditContact.module.css";
 import inputs from "./constatnts/inputs";
 import Modal from "./generalComponents/Modal";
+import ConfirmationBox from "./generalComponents/ConfirmationBox";
 
 function EditContact({
   contact,
@@ -64,15 +65,15 @@ function EditContact({
       </div>
 
       {!!showConfirmation && (
-        <Modal>
-          <div>
-            <div>شما در حال تغییر اطلاعات این مخاطب هستید.</div>
-            <div>آیا مطمعن هستید؟</div>
-            <div>
-              <button onClick={addHandler}>اعمال تغییرات</button>
-              <button onClick={() => setShowConfirmation(null)}>انصراف</button>
-            </div>
-          </div>
+        <Modal setClose={setShowConfirmation}>
+          <ConfirmationBox
+            title={"شما در حال تغییر اطلاعات این مخاطب هستید."}
+            question={"آیا مطمعن هستید؟"}
+            callbackHandler={addHandler}
+            cancelHandler={setShowConfirmation}
+            titleCallBack={"اعمال تغییرات"}
+            titleCancel={"انصراف"}
+          />
         </Modal>
       )}
     </div>

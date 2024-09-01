@@ -77,13 +77,14 @@ function Contacts() {
 
     console.log(searchedContacts);
     if (event.target.value.toLocaleLowerCase()) {
-      const newSearch = contacts.filter((contact) =>
-        (contact.fullName
-          .toLocaleLowerCase()
-          .includes(event.target.value.toLocaleLowerCase())) ||
-          (contact.email
+      const newSearch = contacts.filter(
+        (contact) =>
+          contact.fullName
             .toLocaleLowerCase()
-            .includes(event.target.value.toLocaleLowerCase()))
+            .includes(event.target.value.toLocaleLowerCase()) ||
+          contact.email
+            .toLocaleLowerCase()
+            .includes(event.target.value.toLocaleLowerCase())
       );
 
       setContacts(newSearch);
@@ -94,17 +95,21 @@ function Contacts() {
   };
   return (
     <div className={styles.container}>
-      <SearchBox
-        search={search}
-        setSearch={setSearch}
-        searchHandler={searchHandler}
-      />
-      <button onClick={() => setShowAddContact(true)}>+</button>
-      {!!deleteAll ? (
-        <button onClick={() => setShowDeleteAllConfirmation(true)}>🙎🏻‍♂️</button>
-      ) : (
-        <button onClick={() => setDeleteAll(true)}>✔✔</button>
-      )}
+      <div className={styles.operation}>
+        <SearchBox
+          search={search}
+          setSearch={setSearch}
+          searchHandler={searchHandler}
+        />
+
+        {!!deleteAll ? (
+          <button onClick={() => setShowDeleteAllConfirmation(true)}>🙎🏻‍♂️</button>
+        ) : (
+          <button onClick={() => setDeleteAll(true)}>✔✔</button>
+        )}
+
+        <button className={styles.addContact} onClick={() => setShowAddContact(true)}>+</button>
+      </div>
       {!!showAddContact && (
         <Modal setClose={setShowAddContact}>
           <AddContact

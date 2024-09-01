@@ -1,0 +1,25 @@
+.container {
+  width: 100%;
+}
+.container input {
+  width: 80%;
+  margin: 10px;
+  height: 40px;
+  padding: 10px;
+  border: 2px solid #eaeaea;
+  border-radius: 10px;
+  color: #304ffe;
+  font-size: 1rem;
+  outline: none;
+}
+
+.container input[type="text"]:focus {
+  border: 3px solid #304ffe;
+  box-shadow: 2px 3px 3px 2px #30a1fe;
+}
+
+.container label{
+    color: #304ffe;
+    font-size: 1rem;
+    font-weight:bolder;
+}
